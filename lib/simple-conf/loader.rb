@@ -15,7 +15,9 @@ module SimpleConf
     end
 
     def path
-      "./config/#{klass.name.downcase}.yml"
+      class_name = klass.name.downcase.split("::").last
+
+      "./config/#{class_name}.yml"
     end
 
     def yaml_file

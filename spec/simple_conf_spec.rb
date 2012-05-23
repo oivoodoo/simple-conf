@@ -8,6 +8,12 @@ class Options
   include SimpleConf
 end
 
+module ConfigModule
+  class Options
+    include SimpleConf
+  end
+end
+
 describe SimpleConf do
   context "on include to config class generate properties" do
     it { Configuration.staging.domain.should == "staging.example.com" }
