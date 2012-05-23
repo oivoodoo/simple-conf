@@ -4,9 +4,9 @@ require File.expand_path('../lib/simple-conf/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Alexander Korsak"]
   gem.email         = ["alex.korsak@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = "Simple configuration library for yml files for loading from the config folder"
+  gem.summary       = "Simple configuration library for yml files for loading from the config folder"
+  gem.homepage      = "http://github.com/oivoodoo/simple-conf/"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
