@@ -1,6 +1,6 @@
 # SimpleConf
 
-TODO: Write a gem description
+Simple configuration library for the loading yml files from the config folder.
 
 ## Installation
 
@@ -18,7 +18,31 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Define in your project class like:
+
+```
+  class Configuration
+    include SimpleForm
+  end
+```
+
+Create in the config folder configuration.yml file with content like:
+
+```
+  staging:
+    domain: "staging.example.com"
+    links:
+      - test1.example.com
+      - test2.example.com
+  production:
+    domain: "production.example.com"
+
+Now you can use your file in the project:
+
+```
+  puts Configuration.staging.domain
+  puts Configuration.production.domain
+```
 
 ## Contributing
 
