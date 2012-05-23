@@ -22,7 +22,7 @@ Define in your project class like:
 
 ```
   class Configuration
-    include SimpleForm
+    include SimpleConf
   end
 ```
 
