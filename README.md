@@ -1,4 +1,4 @@
-# Simple::Conf
+# SimpleConf
 
 TODO: Write a gem description
 
