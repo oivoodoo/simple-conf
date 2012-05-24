@@ -20,7 +20,7 @@ Or install it yourself as:
 
 Define in your project class like:
 
-```
+```ruby
   class Configuration
     include SimpleConf
   end
@@ -36,12 +36,14 @@ Create in the config folder configuration.yml file with content like:
       - test2.example.com
   production:
     domain: "production.example.com"
+```
 
 Now you can use your file in the project:
 
-```
-  puts Configuration.staging.domain
-  puts Configuration.production.domain
+```ruby
+  Configuration.staging.domain
+  Configuration.staging.links
+  Configuration.production.domain
 ```
 
 ## Contributing
