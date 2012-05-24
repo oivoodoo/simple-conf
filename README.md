@@ -28,7 +28,7 @@ Define in your project class like:
 
 Create in the config folder configuration.yml file with content like:
 
-```
+```yaml
   staging:
     domain: "staging.example.com"
     links:
