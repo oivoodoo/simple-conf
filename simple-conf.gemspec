@@ -14,4 +14,7 @@ Gem::Specification.new do |gem|
   gem.name          = "simple-conf"
   gem.require_paths = ["lib"]
   gem.version       = SimpleConf::VERSION
+
+  gem.add_dependency('rake')
 end
+
