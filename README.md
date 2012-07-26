@@ -2,6 +2,8 @@
 
 Simple configuration library for the loading yml files from the config folder.
 
+[![Build Status](https://secure.travis-ci.org/oivoodoo/simple-conf.png?branch=master)](http://travis-ci.org/oivoodoo/simple-conf)
+
 ## Installation
 
 Add this line to your application's Gemfile:
