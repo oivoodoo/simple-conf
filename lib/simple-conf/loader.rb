@@ -1,5 +1,6 @@
 require 'ostruct'
 require 'yaml'
+require 'erb'
 
 module SimpleConf
   class Loader
@@ -27,7 +28,7 @@ module SimpleConf
 
     def yaml_file
       content = File.open(path).read
-      YAML.load(content)
+      YAML.load(ERB.new(content).result)
     end
 
     private

@@ -45,3 +45,40 @@ describe SimpleConf do
   end
 end
 
+class TestObject ; end
+
+describe SimpleConf do
+  before do
+    file = double('file', :read => attrib('test').to_yaml)
+    File.stub!(:open).and_return file
+  end
+
+  context "when we have env params in the configuration file" do
+    before { ENV['simple_conf_test_password'] = 'password' }
+
+    after { ENV['simple_conf_test_password'] = nil }
+
+    let(:loader) { SimpleConf::Loader.new(TestObject) }
+
+    context "on run loader" do
+      before { loader.run }
+
+      it "should return username" do
+        TestObject.test.username.should == 'fred'
+      end
+
+      it "should return password fetched from the environment" do
+        TestObject.test.password.should == 'password'
+      end
+    end
+  end
+
+  def attrib(environment)
+    {
+      environment => {
+          "username" => "fred",
+          "password" => "<%= ENV['simple_conf_test_password'] %>"
+      }
+    }
+  end
+end
