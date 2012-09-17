@@ -38,6 +38,8 @@ Create in the config folder configuration.yml file with content like:
       - test2.example.com
   production:
     domain: "production.example.com"
+    username: <%= ENV['username'] %>
+    password: <%= ENV['password'] %>
 ```
 
 Now you can use your file in the project:
