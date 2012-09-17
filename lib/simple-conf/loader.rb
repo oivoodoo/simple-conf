@@ -13,6 +13,10 @@ module SimpleConf
       yaml_file.each_pair do |key, value|
         set(key, value)
       end
+
+      yaml_file.fetch(Rails.env, {}).each_pair do |key, value|
+        set(key, value)
+      end if rails_environment_defined?
     end
 
     def path
@@ -41,6 +45,13 @@ module SimpleConf
 
       struct = OpenStruct.new(value) rescue value
       klass.instance_variable_set(:"@#{key}", struct)
+    end
+
+    def rails_environment_defined?
+      rails_klass = Module.const_get('Rails')
+      return rails_klass.is_a?(Module)
+    rescue NameError
+      return false
     end
   end
 
