@@ -18,6 +18,10 @@ module SimpleConf
       yaml_file.fetch(Rails.env, {}).each_pair do |key, value|
         set(key, value)
       end if rails_environment_defined?
+
+      yaml_file.fetch(@klass.env, {}).each_pair do |key, value|
+        set(key, value)
+      end if @klass.respond_to?(:env)
     end
 
     def path

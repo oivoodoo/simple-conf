@@ -20,6 +20,14 @@ module ConfigModule
   end
 end
 
+class Settings
+  def self.env
+    'test'
+  end
+
+  include SimpleConf
+end
+
 describe SimpleConf do
   context "on include to config class generate properties" do
     it { Configuration.staging.domain.should == "staging.example.com" }
@@ -42,6 +50,12 @@ end
 describe SimpleConf do
   context "on include properties depending on rails environment" do
     it { Configuration.domain.should == "staging.example.com" }
+  end
+end
+
+describe SimpleConf do
+  context 'on include properties depenending on env method' do
+    Settings.domain.should == 'test.example.com'
   end
 end
 
