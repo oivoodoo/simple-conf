@@ -26,6 +26,12 @@ Define in your project class like:
   class Configuration
     include SimpleConf
   end
+  
+  class Configuration
+    def self.env
+      ENV['RACK_ENV']
+    end
+  end
 ```
 
 Create in the config folder configuration.yml file with content like:
