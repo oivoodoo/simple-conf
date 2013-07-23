@@ -15,6 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = SimpleConf::VERSION
 
+  gem.license = 'MIT'
+
   gem.add_dependency('rake')
 end
 
