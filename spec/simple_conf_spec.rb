@@ -28,6 +28,14 @@ class Settings
   include SimpleConf
 end
 
+class SettingsWithFilename
+  def self.config_file_name
+    'settings.yml'
+  end
+
+  include SimpleConf
+end
+
 describe SimpleConf do
   context "on include to config class generate properties" do
     it { Configuration.staging.domain.should == "staging.example.com" }
@@ -96,3 +104,10 @@ describe SimpleConf do
     }
   end
 end
+
+describe SimpleConf do
+  it 'should be possible to use defined name in the settings class for loading the configuration file' do
+    SettingsWithFilename.test.domain.should == 'test.example.com'
+  end
+end
+

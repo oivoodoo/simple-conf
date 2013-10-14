@@ -3,13 +3,7 @@ require 'yaml'
 require 'erb'
 
 module SimpleConf
-  class Loader
-    attr_reader :klass
-
-    def initialize(klass)
-      @klass = klass
-    end
-
+  Loader = Struct.new(:klass) do
     def run
       yaml_file.each_pair do |key, value|
         set(key, value)
@@ -19,15 +13,19 @@ module SimpleConf
         set(key, value)
       end if rails_environment_defined?
 
-      yaml_file.fetch(@klass.env, {}).each_pair do |key, value|
+      yaml_file.fetch(klass.env, {}).each_pair do |key, value|
         set(key, value)
-      end if @klass.respond_to?(:env)
+      end if klass.respond_to?(:env)
     end
 
     def path
-      class_name = klass.name.downcase.split("::").last
+      "./config/#{config_file_name}"
+    end
 
-      "./config/#{class_name}.yml"
+    def config_file_name
+      klass.respond_to?(:config_file_name) ?
+        klass.config_file_name :
+        "#{klass.name.downcase.split("::").last}.yml"
     end
 
     def yaml_file
