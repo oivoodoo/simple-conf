@@ -5,30 +5,36 @@ require 'erb'
 module SimpleConf
   Loader = Struct.new(:klass) do
     def run
-      yaml_file.each_pair do |key, value|
-        set(key, value)
+      paths.each do |path|
+        yaml_file(path).each_pair do |key, value|
+          set(key, value)
+        end
+
+        yaml_file(path).fetch(Rails.env, {}).each_pair do |key, value|
+          set(key, value)
+        end if rails_environment_defined?
+
+        yaml_file(path).fetch(klass.env, {}).each_pair do |key, value|
+          set(key, value)
+        end if klass.respond_to?(:env)
       end
-
-      yaml_file.fetch(Rails.env, {}).each_pair do |key, value|
-        set(key, value)
-      end if rails_environment_defined?
-
-      yaml_file.fetch(klass.env, {}).each_pair do |key, value|
-        set(key, value)
-      end if klass.respond_to?(:env)
     end
 
-    def path
-      "./config/#{config_file_name}"
+    def paths
+      [
+        "./config/#{config_file_name}.yml",
+        "./config/#{config_file_name}.local.yml",
+      ]
     end
 
     def config_file_name
       klass.respond_to?(:config_file_name) ?
         klass.config_file_name :
-        "#{klass.name.downcase.split("::").last}.yml"
+        "#{klass.name.downcase.split("::").last}"
     end
 
-    def yaml_file
+    def yaml_file(path)
+      return {} unless File.exists?(path)
       content = File.open(path).read
       YAML.load(ERB.new(content).result)
     end
