@@ -6,18 +6,28 @@ module SimpleConf
   Loader = Struct.new(:klass) do
     def run
       paths.each do |path|
-        yaml_file(path).each_pair do |key, value|
-          set(key, value)
-        end
-
-        yaml_file(path).fetch(Rails.env, {}).each_pair do |key, value|
-          set(key, value)
-        end if rails_environment_defined?
-
-        yaml_file(path).fetch(klass.env, {}).each_pair do |key, value|
-          set(key, value)
-        end if klass.respond_to?(:env)
+        load_file(path)
+        load_file_by_rails_env(path)
+        load_file_by_klass_env(path)
       end
+    end
+
+    def load_file_by_rails_env(path)
+      yaml_file(path).fetch(Rails.env, {}).each_pair do |key, value|
+        set(key, value)
+      end if rails_environment_defined?
+    end
+
+    def load_file(path)
+      yaml_file(path).each_pair do |key, value|
+        set(key, value)
+      end
+    end
+
+    def load_file_by_klass_env(path)
+      yaml_file(path).fetch(klass.env, {}).each_pair do |key, value|
+        set(key, value)
+      end if klass.respond_to?(:env)
     end
 
     def paths
