@@ -40,7 +40,15 @@ module SimpleConf
     def config_file_name
       klass.respond_to?(:config_file_name) ?
         klass.config_file_name :
-        "#{klass.name.downcase.split("::").last}"
+        "#{underscore(klass.name.split("::").last)}"
+    end
+
+    def underscore(camel_case_string)
+      camel_case_string.gsub(/::/, '/').
+      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+      gsub(/([a-z\d])([A-Z])/,'\1_\2').
+      tr("-", "_").
+      downcase
     end
 
     def yaml_file(path)
