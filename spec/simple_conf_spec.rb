@@ -20,6 +20,10 @@ module ConfigModule
   end
 end
 
+class CamelCaseConfig
+  include SimpleConf
+end
+
 class Settings
   def self.env
     'test'
@@ -120,6 +124,12 @@ describe SimpleConf do
   it 'supports .local.yml file for loading extra options' do
     expect(Options2).to respond_to(:group1)
     expect(Options2).to respond_to(:group2)
+  end
+end
+
+describe SimpleConf do
+  it 'should properly handle camel case names' do
+    expect(CamelCaseConfig.domain).to eq('staging.example.com')
   end
 end
 
