@@ -12,7 +12,11 @@ module SimpleConf
           attr_reader :keys
         end
 
-        @keys = []
+        @keys = Set.new
+
+        def keys
+          @keys.to_a
+        end
       }
     end
 
@@ -27,6 +31,10 @@ module SimpleConf
     def load_file_by_rails_env(path)
       yaml_file(path).fetch(Rails.env, {}).each_pair do |key, value|
         set(key, value)
+
+        klass.class_eval %Q{
+          @keys << :#{key}
+        }
       end if rails_environment_defined?
     end
 
@@ -39,6 +47,10 @@ module SimpleConf
     def load_file_by_klass_env(path)
       yaml_file(path).fetch(klass.env, {}).each_pair do |key, value|
         set(key, value)
+
+        klass.class_eval %Q{
+          @keys << :#{key}
+        }
       end if klass.respond_to?(:env)
     end
 
@@ -57,10 +69,10 @@ module SimpleConf
 
     def underscore(camel_case_string)
       camel_case_string.gsub(/::/, '/').
-      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-      gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      tr("-", "_").
-      downcase
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        tr("-", "_").
+        downcase
     end
 
     def yaml_file(path)
@@ -76,8 +88,6 @@ module SimpleConf
         class << self
           attr_reader :#{key}
         end
-
-        @keys.push(:#{key})
       }
     end
 

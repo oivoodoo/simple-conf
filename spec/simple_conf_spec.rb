@@ -69,6 +69,12 @@ describe SimpleConf do
   it 'on include properties depenending on env method' do
     expect(Settings.domain).to eq('test.example.com')
   end
+
+
+  it 'should not include env keys' do
+    expect(Settings.keys).not_to include(:test)
+    expect(Settings.keys).to include(:domain)
+  end
 end
 
 describe SimpleConf do
@@ -124,12 +130,6 @@ describe SimpleConf do
   it 'supports .local.yml file for loading extra options' do
     expect(Options2).to respond_to(:group1)
     expect(Options2).to respond_to(:group2)
-  end
-
-  it 'should have .keys for iterating by root keys of the configuration file' do
-    expect(Options2.keys.size).to eq(2)
-    expect(Options2.keys).to include(:group1)
-    expect(Options2.keys).to include(:group2)
   end
 end
 
