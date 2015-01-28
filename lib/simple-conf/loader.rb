@@ -4,6 +4,18 @@ require 'erb'
 
 module SimpleConf
   Loader = Struct.new(:klass) do
+    def initialize(klass)
+      super(klass)
+
+      klass.class_eval %Q{
+        class << self
+          attr_reader :keys
+        end
+
+        @keys = []
+      }
+    end
+
     def run
       paths.each do |path|
         load_file(path)
@@ -64,7 +76,13 @@ module SimpleConf
         class << self
           attr_reader :#{key}
         end
+
+        @keys.push(:#{key})
       }
+    end
+
+    class << self
+      attr_reader :keys
     end
 
     def set(key, value)

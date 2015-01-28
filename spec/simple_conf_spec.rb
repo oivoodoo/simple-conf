@@ -125,6 +125,12 @@ describe SimpleConf do
     expect(Options2).to respond_to(:group1)
     expect(Options2).to respond_to(:group2)
   end
+
+  it 'should have .keys for iterating by root keys of the configuration file' do
+    expect(Options2.keys.size).to eq(2)
+    expect(Options2.keys).to include(:group1)
+    expect(Options2.keys).to include(:group2)
+  end
 end
 
 describe SimpleConf do
